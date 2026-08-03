@@ -1,166 +1,255 @@
-<div align="center">
-
-![Desk Compass](docs/desk-compass.svg)
-
-*"Where's my desk?"* - Search no more:
-Manage your floor plan and space layout;
-Keep track of item locations;
-Collaborate to maximize overview for your office, event location or lecture rooms.
-----
-
-</div>
-
-## About Desk Compass
-
-Example screenshot:
-
-![Screenshot](docs/screenshot.png)
+<img width="1842" height="854" alt="desk-compass" src="https://github.com/user-attachments/assets/cb7ecc61-ad32-4feb-9ea2-a3bf2bee88e6" /><img width="1842" height="854" alt="desk-compass" src="https://github.com/user-attachments/assets/503f2d00-c4f8-4d0a-ae11-a210cb9fbc97" />
 
 
-### Features
+# Supply Chain Compass
 
-- Display different types of markers, like people, tables, first aid kits a.s.o
-- Filter markers via search filter
-- Toggle visibility of markers and their labels by type
-- Move and rotate markers
-- Edit marker properties and upload an image
-- `health` and `metrics` endpoints available
+**"Where is my inventory?" – Search no more.**
 
+Supply Chain Compass is an open-source platform for visualizing warehouses, distribution centers, factories, and logistics hubs. Manage facility layouts, track inventory and equipment locations, and give operations teams a live overview of everything happening inside your supply chain facilities.
 
-## Getting started
+---
 
-### Build for development
+## Overview
 
-You'll need Node.js >= 18.x and Yarn:
+Supply Chain Compass provides an interactive map of your warehouse where every physical asset can be represented as a marker.
 
-- Run `yarn install` to install all necessary dependencies
-- Start server and frontend simultaneously with `yarn start`
-- See application UI http://localhost:3000/
-- See API at http://localhost:3030/api/swagger and as OpenAPI JSON at http://localhost:3030/api/swagger-json
-- See health indicator at http://localhost:3030/health
-- See application metrics at http://localhost:3033/metrics
+Instead of static warehouse drawings or spreadsheets, operations teams can quickly locate:
 
+- Inventory
+- Pallets
+- Containers
+- Forklifts
+- AGVs and robots
+- Picking carts
+- Dock doors
+- Storage racks
+- Safety equipment
+- Employees (optional)
+- Orders in progress
 
-### Build for production
+Designed to integrate with Warehouse Management Systems (WMS), ERP platforms, barcode scanners, RFID readers, and IoT devices.
 
-- Create a production environment `cp environments/.env.development environments/.env` and adjust it accordingly
-- Run `yarn install --frozen-lockfile --ingnore-scripts`
-- Run `yarn build`
-- You'll need to copy a few files to your `<TARGET_DIRECTORY`
-  - `mkdir <TARGET_DIRECTORY>/static` 
-  - `cp -r node_modules/ <TARGET_DIRECTORY>/`
-  - `cp -r workspaces/api/dist/* <TARGET_DIRECTORY>/`
-  - `cp -r workspaces/api/frontend/* <TARGET_DIRECTORY>/static/`
-- Then in your target directory `node main`
+---
 
+## Features
 
-### With Docker
+### Interactive Warehouse Map
 
-```shell
-$ docker build -t desk-compass .
-$ MSYS_NO_PATHCONV=1 docker run --rm --name=desk-compass \
+- Visualize warehouse layouts
+- Support multiple warehouse zones
+- Organize storage locations
+- Display racks, bins, docks, and workstations
+
+### Asset Tracking
+
+Display different types of assets including:
+
+- Inventory
+- Storage locations
+- Pallets
+- Containers
+- Forklifts
+- AGVs
+- Picking carts
+- Robots
+- Shipping docks
+- Receiving areas
+- Packing stations
+- Safety equipment
+
+### Search & Filtering
+
+Quickly locate assets by:
+
+- SKU
+- Order Number
+- Pallet ID
+- Container ID
+- Batch
+- Lot Number
+- Vehicle
+- Warehouse Zone
+
+Filter by:
+
+- Available Inventory
+- Reserved Inventory
+- Damaged Goods
+- Inbound Shipments
+- Outbound Shipments
+- Cold Storage
+- High Value Inventory
+
+### Live Operations Dashboard
+
+Visualize:
+
+- Active Picking
+- Receiving
+- Shipping
+- Packing
+- Inventory Status
+- Equipment Utilization
+
+### Asset Management
+
+- Move assets
+- Rotate assets
+- Edit properties
+- Upload images
+- Assign ownership
+- Update operational status
+
+### API
+
+REST API with OpenAPI documentation.
+
+### Monitoring
+
+- Health endpoint
+- Metrics endpoint
+- Prometheus compatible metrics
+
+---
+
+## Typical Use Cases
+
+- Warehouses
+- Distribution Centers
+- Manufacturing Plants
+- Retail Fulfillment Centers
+- Cold Storage Facilities
+- Ports & Logistics Hubs
+- Cross Dock Operations
+
+---
+
+## Technology
+
+- Node.js
+- TypeScript
+- React
+- REST API
+- OpenAPI
+- Docker
+- Prometheus Metrics
+
+---
+
+## Getting Started
+
+### Development
+
+Requirements:
+
+- Node.js >= 18
+- Yarn
+
+Install dependencies
+
+```bash
+yarn install
+```
+
+Start development
+
+```bash
+yarn start
+```
+
+Application
+
+```
+http://localhost:3000
+```
+
+API
+
+```
+http://localhost:3030/api/swagger
+```
+
+Health
+
+```
+http://localhost:3030/health
+```
+
+Metrics
+
+```
+http://localhost:3033/metrics
+```
+
+---
+
+## Production
+
+```bash
+cp environments/.env.development environments/.env
+
+yarn install --frozen-lockfile --ignore-scripts
+
+yarn build
+```
+
+Deploy the generated backend and frontend as described below.
+
+---
+
+## Docker
+
+```bash
+docker build -t supply-chain-compass .
+
+docker run \
+  --rm \
+  --name supply-chain-compass \
   -e DATABASE_PATH=/storage/db \
   -e IMAGE_STORAGE_PATH=/storage/images \
-  -v "/.tmp/deskcompass:/storage:rw" \
-  -p 5000:3030 desk-compass
-```
-Open http://localhost:5000/ in your browser
-
-**Environment variables:**
-
-The following environment variables are **required** to start the application:
-
-- `IMAGE_STORAGE_PATH` (must): Path to folder to store uploaded images. Read and write permissions for the application are required.
-- `DATABASE_PATH` (must): Path to folder to persist application data. Read and write permissions for the application are required.
-
-The following environment variables are **optional**:
-
-- `NODE_ENV`: Should be set to `development` for local development. It is empty by default. If set to `development`, it will
-  - structure and colorize JSON log output
-  - enable Swagger UI for API endpoints (at http://localhost:3030/swagger)
-- `API_PORT`: adjust port to backend API, fallback is `3030`
-- `DATABASE_HUMAN_READABLE`: application data is stored in a JSON file. Set this to `true` for readability.
-- `CORS_ALLOWED_ORIGINS`: comma-separated list of allowed origins (will be parsed as Regex). If not set, CORS will be disabled. Eg.: `CORS_ALLOWED_ORIGINS="localhost:3000$,127.0.0.1:3000$"`.
-- `CORS_ALLOWED_METHODS`: comma-separated list of allowed methods. If not set, it will fall back to `"GET,HEAD,OPTIONS,PUT,POST,DELETE"`
-- `METRICS_PORT`: Port for metrics endpoint, defaults to `3033`. This would expose `http://localhost:3033/metrics` for local development.
-
-
-## Developer guide
-
-Install all necessary dependencies, create basic environment setup for local development and then start application in watch mode:
-
-```shell
-yarn install
-cp workspaces/api/local.env workspaces/api/.env
-yarn start
-```
-- See application UI http://localhost:3000/
-- See API at http://localhost:3030/swagger and as OpenAPI JSON at http://localhost:3030/swagger-json
-- See health indicator at http://localhost:3030/health
-- See application metrics at http://localhost:3033/metrics
-
-
-### Run unit tests
-
-Run frontend and API tests
-```shell
-yarn run test
-```
-Run API tests only
-```shell
-yarn workspace api run test
+  -v "/warehouse-data:/storage" \
+  -p 5000:3030 \
+  supply-chain-compass
 ```
 
-Run frontend tests only
-```shell
-yarn workspace frontend run test
+Open
+
+```
+http://localhost:5000
 ```
 
-For all calls a `yarn run test:watch` variant exists.
+---
+
+## Environment Variables
+
+Required
+
+- DATABASE_PATH
+- IMAGE_STORAGE_PATH
+
+Optional
+
+- NODE_ENV
+- API_PORT
+- DATABASE_HUMAN_READABLE
+- CORS_ALLOWED_ORIGINS
+- CORS_ALLOWED_METHODS
+- METRICS_PORT
+
+---
+
+## Roadmap
+
+- RFID Integration
+- Barcode Scanner Integration
+- IoT Device Integration
+- ERP Integration
+- Warehouse Management System Integration
+- Live Equipment Tracking
+- Inventory Heatmaps
+- Capacity Planning
+- Yard Management
+- Digital Twin Support
 
 
-### Run e2e tests
 
-Install browsers with `npx playwright install`
-
-Run e2e tests:
-```shell
-yarn run e2e
-```
-
-Run e2e tests in watch mode, which opens vitest UI:
-```shell
-yarn run e2e:watch
-```
-
-To run application and e2e tests independently, start the application first with
-```shell
-yarn start
-```
-and then in another console:
-```shell
-yarn workspace e2e run test:watch
-```
-
-
-### Run linters
-
-Run frontend and API linters
-```shell
-yarn run lint
-```
-
-
-## Contributing
-
-### Contributing Guidelines
-Read through our [contributing guidelines](CONTRIBUTING.md) to learn about our submission process, coding rules, and more.
-
-
-### Want to Help?
-Want to report a bug, contribute some code, or improve the documentation? Excellent! Read up on our [guidelines for contributing](CONTRIBUTING.md) and then check out one of the project issues labeled as `help wanted` or `good first issue`.
-
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
