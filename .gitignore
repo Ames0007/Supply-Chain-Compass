@@ -1,0 +1,17 @@
+**/node_modules/
+dist/
+.DS_Store
+static
+**/*.log
+.eslintcache
+.idea/
+*data.json
+coverage/
+.tmp/
+test-data/
+**/.env
+test-results/
+playwright-report/
+playwright/.cache/
+.project
+.settings/

@@ -1,0 +1,12 @@
+{
+  "name": "e2e",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "playwright test --no-watch --workers=1 --reporter=html",
+    "test:watch": "playwright test --ui --workers=1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.49.1"
+  }
+}

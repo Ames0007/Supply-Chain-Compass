@@ -1,0 +1,74 @@
+name: PR on Desk Compass
+
+on: pull_request
+
+jobs:
+  prepare:
+    container: node:lts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+      - run: echo 'yarn-offline-mirror ".yarn-cache/"' >> .yarnrc
+      - run: echo 'yarn-offline-mirror-pruning true' >> .yarnrc
+      - run: HUSKY=0 yarn install --frozen-lockfile --no-progress
+
+  lint:
+    runs-on: ubuntu-latest
+    needs: [prepare]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+      - run: HUSKY=0 yarn install --frozen-lockfile --no-progress
+      - run: yarn lint
+      # - run: yarn workspace frontend run check
+
+  unit_test_frontend:
+    runs-on: ubuntu-latest
+    needs: [prepare]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+      - run: HUSKY=0 yarn install --frozen-lockfile --no-progress
+      - run: yarn workspace frontend run test:coverage
+
+  unit_test_backend:
+    runs-on: ubuntu-latest
+    needs: [prepare]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+      - run: HUSKY=0 yarn install --frozen-lockfile --no-progress
+      - run: yarn workspace api run test:coverage
+
+  e2e_test:
+    container:
+      image: node:lts
+      options: --user root
+    runs-on: ubuntu-latest
+    needs: [prepare]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'npm'
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        run: HUSKY=0 yarn install --frozen-lockfile --no-progress
+      - name: Install browsers
+        run: npx playwright install-deps && npx playwright install chromium
+      - name: Run Playwright tests
+        run: yarn e2e
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: workspaces/e2e/playwright-report/
+          retention-days: 30
