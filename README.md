@@ -1,4 +1,4 @@
-<img width="1842" height="854" alt="desk-compass" src="https://github.com/user-attachments/assets/cb7ecc61-ad32-4feb-9ea2-a3bf2bee88e6" />
+<img width="1840" height="854" alt="screenshot" src="https://github.com/user-attachments/assets/eb90040e-6a14-4f5a-a875-36ded2cb434b" />
 
 
 # Supply Chain Compass
@@ -27,10 +27,12 @@ Instead of static warehouse drawings or spreadsheets, operations teams can quick
 - Employees (optional)
 - Orders in progress
 
-Designed to integrate with Warehouse Management Systems (WMS), ERP platforms, barcode scanners, RFID readers, and IoT devices.
+Designed to integrate with <img width="1840" height="854" alt="screenshot" src="https://github.com/user-attachments/assets/67b491e2-ace6-4c09-9d2d-d62447e282d8" />
+Warehouse Management Systems (WMS), ERP platforms, barcode scanners, RFID readers, and IoT devices.
 
 
-![Uploading screenshot.png…]()
+<img width="1550" height="1014" alt="screenshot" src="https://github.com/user-attachments/assets/f1935461-6e8d-4688-9dd8-a72171f51e9d" />
+
 
 ---
 
