@@ -1,4 +1,4 @@
-<img width="1200" height="200" alt="screenshot" src="https://github.com/user-attachments/assets/eb90040e-6a14-4f5a-a875-36ded2cb434b" />
+<img width="1200" height="350" alt="screenshot" src="https://github.com/user-attachments/assets/eb90040e-6a14-4f5a-a875-36ded2cb434b" />
 
 
 # Supply Chain Compass
